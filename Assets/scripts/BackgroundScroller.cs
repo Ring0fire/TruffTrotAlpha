@@ -8,7 +8,6 @@ public class BackgroundScroller : MonoBehaviour
 	
 	private Renderer myRenderer;
 	
-	
     // Start is called before the first frame update
     void Start()
     {
@@ -19,7 +18,7 @@ public class BackgroundScroller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		Vector2 offset = new Vector2(Time.time * (1/myPlayer.moveSpeed), 0);
+		Vector2 offset = new Vector2(Time.time * (myPlayer.moveSpeed / 100), 0);
 		myRenderer.material.mainTextureOffset = offset;
         
     }
