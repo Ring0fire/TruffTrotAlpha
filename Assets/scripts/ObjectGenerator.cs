@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+//to be fixed
 public class ObjectGenerator : MonoBehaviour
 {
 	//create a space in the editor to place a platform that can be generated
