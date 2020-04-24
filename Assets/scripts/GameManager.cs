@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-	public Transform objectGenerator;
-	public Transform cloudGenerator;
+	public ObjectGenerator objectGenerator;
+	public ObjectGenerator cloudGenerator;
 	private Vector3 platformStartPoint;
 	
 	public PlayerController thePlayer; 
@@ -25,30 +25,30 @@ public class GameManager : MonoBehaviour
 	
     void Start()
     {
-        platformStartPoint = objectGenerator.position;
+        platformStartPoint = objectGenerator.transform.position;
 		playerStartPoint = thePlayer.transform.position;
 		theScoreManager = FindObjectOfType<ScoreManager>();
 	}
 
     void Update()
     {
+	    // if cloud trot...
 		if (thePlayer.myRigidbody.transform.position.y > cloudGenerator.transform.position.y)
 		{
-		GameObject.Find("ObjectGenerator").GetComponent<ObjectGenerator>().enabled = false;
-		cloudTrot = true;
-		mainTrot = false;
-		objectGenerator.position = new Vector2 (cloudGenerator.position.x, objectGenerator.position.y);
+			GameObject.Find("ObjectGenerator").GetComponent<ObjectGenerator>().enabled = false;
+			cloudGenerator.Generate();
+			objectGenerator.transform.position = new Vector2 (cloudGenerator.transform.position.x, objectGenerator.transform.position.y);
 		} 
-		if (thePlayer.myRigidbody.transform.position.y < cloudGenerator.transform.position.y)		
+		// else if normal trot...
+		else if (thePlayer.myRigidbody.transform.position.y < cloudGenerator.transform.position.y)
 		{
-		cloudTrot = false;
+			objectGenerator.Generate();
 		}
 		
-		if (thePlayer.myRigidbody.transform.position.y < cloudGenerator.transform.position.y)
-		{
-		mainTrot = true;
-		} 
-
+//		if (thePlayer.myRigidbody.transform.position.y < cloudGenerator.transform.position.y)
+//		{
+//			mainTrot = true;
+//		}
     }
 	public void RestartGame()
 	{
@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
 			objectList[i].gameObject.SetActive(false);
 		}
 		thePlayer.transform.position = playerStartPoint;
-		objectGenerator.position = platformStartPoint;
+		objectGenerator.transform.position = platformStartPoint;
 		thePlayer.gameObject.SetActive(true);
 		
 		theScoreManager.scoreCount = 0;

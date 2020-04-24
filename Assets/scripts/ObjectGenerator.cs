@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//to be fixed
+
 public class ObjectGenerator : MonoBehaviour
 {
 	//create a space in the editor to place a platform that can be generated
@@ -42,15 +42,15 @@ public class ObjectGenerator : MonoBehaviour
 	
     void Start()
     {
-/* object generation notes
-	first we set our platformWidths to a number that we get by finding the length of an object within our object pools (in the editor). 
-	so our platformWidths will be set to the 'Length' (size on the x axis). in my project all the platforms are built to be the same size
-	so this doesn't do much, but still gives me room to make changes later.
-	
-	we have 'for loop', which will initialize at 0, then check to see if the object in our ObjectPools has a size. it should, so then
-	we set our platformWidths
-	
-	*/
+		/*
+		 object generation notes	
+		first we set our platformWidths to a number that we get by finding the length of an object within our object pools (in the editor). 
+		so our platformWidths will be set to the 'Length' (size on the x axis). in my project all the platforms are built to be the same size
+		so this doesn't do much, but still gives me room to make changes later.
+		
+		we have 'for loop', which will initialize at 0, then check to see if the object in our ObjectPools has a size. it should, so then
+		we set our platformWidths
+		*/
 
         platformWidths = new float [theObjectPools.Length];
 		
@@ -61,76 +61,54 @@ public class ObjectGenerator : MonoBehaviour
 		theTruffleGenerator = FindObjectOfType<TruffleGenerator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Generate()
     {
         if(transform.position.x < generationPoint.position.x)
 		{
 			platformSelector = Random.Range(0, theObjectPools.Length);
 		 	
-		if(Random.Range(0f, 100f) < powerupThreshold)
-		{
-			GameObject newPowerup = powerupPool.GetPooledObject();
-			newPowerup.transform.position = transform.position + new Vector3(Random.Range(-platformWidths[platformSelector], platformWidths[platformSelector]), Random.Range(3f,powerupHeight), 0f);
-	
-			newPowerup.SetActive(true);
-		}			
-			if(theGameManager.mainTrot)
+			if(Random.Range(0f, 100f) < powerupThreshold)
 			{
-			transform.position = new Vector3(transform.position.x + (platformWidths[platformSelector])*2, transform.position.y, transform.position.z);
-			/*GameObject newPlatform = theObjectPools[platformSelector].GetPooledObject();
+				GameObject newPowerup = powerupPool.GetPooledObject();
+				newPowerup.transform.position = transform.position + new Vector3(Random.Range(-platformWidths[platformSelector], platformWidths[platformSelector]), Random.Range(3f,powerupHeight), 0f);
+		
+				newPowerup.SetActive(true);
+			}
+
+			distanceBetween = 0;// Random.Range (distanceBetweenMin, distanceBetweenMax);
+			heightChange = Random.Range(maxHeightChange, -maxHeightChange);
+			transform.position = new Vector3(transform.position.x + (platformWidths[platformSelector] * 2) + distanceBetween, transform.position.y + heightChange , transform.position.z);
 			
+			/*GameObject newPlatform = theObjectPools[platformSelector].GetPooledObject();
+
 			newPlatform.transform.position = transform.position;
 			newPlatform.transform.rotation = transform.rotation;
-			newPlatform.SetActive (true);*/
+			newPlatform.SetActive (true);	*/
 			
+			GameObject newPlatform = theObjectPools[platformSelector].GetPooledObject();
 
+			newPlatform.transform.position = transform.position;
+			newPlatform.transform.rotation = transform.rotation;
+			newPlatform.SetActive (true);
+			
+			if(Random.Range(0f, 100f) < randomTruffleThreshold)
+			{	
+				theTruffleGenerator.SpawnTruffles(new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z));
 			}
-			if(theGameManager.cloudTrot)
+
+			if(Random.Range(0f, 100f) < rndPitHzdThreshold)
 			{
-				distanceBetween = Random.Range (distanceBetweenMin, distanceBetweenMax);
-				platformSelector = Random.Range (0,theObjectPools.Length);
-				heightChange = transform.position.y + Random.Range(maxHeightChange, -maxHeightChange);
-				if(heightChange > maxHeight)
-				{
-					heightChange = maxHeight;
-				}   else if (heightChange < minHeight)
-				{
-					heightChange = minHeight;
-				}
-		transform.position = new Vector3(transform.position.x + (platformWidths[platformSelector] / 2) + distanceBetween, heightChange , transform.position.z);			
-		/*GameObject newPlatform = theObjectPools[platformSelector].GetPooledObject();
-
-		newPlatform.transform.position = transform.position;
-		newPlatform.transform.rotation = transform.rotation;
-		newPlatform.SetActive (true);	*/
+				GameObject newPitHazard = pitHzrdPool.GetPooledObject();
+				
+				float pitXPos = Random.Range(-platformWidths[platformSelector], platformWidths[platformSelector]);
+				Vector3 pitHzdPos = new Vector3(pitXPos, 0.1f, -1f);
+				
+				newPitHazard.transform.position = transform.position + pitHzdPos;
+				newPitHazard.transform.rotation = transform.rotation;
+				newPitHazard.SetActive(true);
+				
+			}	
+			//transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
 		}
-		GameObject newPlatform = theObjectPools[platformSelector].GetPooledObject();
-
-		newPlatform.transform.position = transform.position;
-		newPlatform.transform.rotation = transform.rotation;
-		newPlatform.SetActive (true);	
-		
-		
-		
-		if(Random.Range(0f, 100f) < randomTruffleThreshold)
-		{	
-			theTruffleGenerator.SpawnTruffles(new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z));
-		}
-
-		if(Random.Range(0f, 100f) < rndPitHzdThreshold)
-		{
-			GameObject newPitHazard = pitHzrdPool.GetPooledObject();
-			
-			float pitXPos = Random.Range(-platformWidths[platformSelector], platformWidths[platformSelector]);
-			Vector3 pitHzdPos = new Vector3(pitXPos, 0.1f, -1f);
-			
-			newPitHazard.transform.position = transform.position + pitHzdPos;
-			newPitHazard.transform.rotation = transform.rotation;
-			newPitHazard.SetActive(true);
-			
-		}	
-		//transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
-		}
-	}
+    }
 }

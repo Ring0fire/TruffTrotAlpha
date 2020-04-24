@@ -31,10 +31,11 @@ public class ObjectPooler : MonoBehaviour {
 				return pooledObjects[i];
 			}
 		}	
-			GameObject obj = (GameObject) Instantiate (pooledObject);
-			obj.SetActive (false);
-			pooledObjects.Add (obj);
-			return obj;
+		
+		GameObject obj = (GameObject) Instantiate (pooledObject);
+		obj.SetActive (false);
+		pooledObjects.Add (obj);
+		return obj;
 	}
 
 }
