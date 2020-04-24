@@ -48,12 +48,12 @@ public class PowerUpManager : MonoBehaviour
 			
 			if(powerupLengthCounter <= 0)
 			{
-			theScoreManager.distPerSecond = normalPtsPerSecond;
-			theScoreManager.doublePoints = false;
+				theScoreManager.distPerSecond = normalPtsPerSecond;
+				theScoreManager.doublePoints = false;
+				
+				theObjectGenerator.rndPitHzdThreshold = pithzdRate;
 			
-			theObjectGenerator.rndPitHzdThreshold = pithzdRate;
-		
-			powerupActive = false;
+				powerupActive = false;
 			}
 		}     
     }

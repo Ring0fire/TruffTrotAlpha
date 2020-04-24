@@ -37,6 +37,6 @@ public class PowerUps : MonoBehaviour
 		{
 			thePowerUpManager.ActivatePowerup(doublePts, powerupLength);
 		}
-			gameObject.SetActive(false);
+	    gameObject.SetActive(false);
     }
 }

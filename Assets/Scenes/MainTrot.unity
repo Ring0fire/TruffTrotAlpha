@@ -193,8 +193,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c4bd50332313cb940a024fa70f05f205, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  objectGenerator: {fileID: 292007869}
-  cloudGenerator: {fileID: 1620187319}
+  objectGenerator: {fileID: 292007868}
+  cloudGenerator: {fileID: 1620187318}
   thePlayer: {fileID: 450044456}
   theGameOverScreen: {fileID: 1902879281}
   powerupReset: 0

@@ -42,15 +42,15 @@ public class ObjectGenerator : MonoBehaviour
 	
     void Start()
     {
-		/*
-		 object generation notes	
-		first we set our platformWidths to a number that we get by finding the length of an object within our object pools (in the editor). 
-		so our platformWidths will be set to the 'Length' (size on the x axis). in my project all the platforms are built to be the same size
-		so this doesn't do much, but still gives me room to make changes later.
-		
-		we have 'for loop', which will initialize at 0, then check to see if the object in our ObjectPools has a size. it should, so then
-		we set our platformWidths
-		*/
+	    /*
+	     object generation notes	
+	    first we set our platformWidths to a number that we get by finding the length of an object within our object pools (in the editor). 
+	    so our platformWidths will be set to the 'Length' (size on the x axis). in my project all the platforms are built to be the same size
+	    so this doesn't do much, but still gives me room to make changes later.
+	    
+	    we have 'for loop', which will initialize at 0, then check to see if the object in our ObjectPools has a size. it should, so then
+	    we set our platformWidths
+	    */
 
         platformWidths = new float [theObjectPools.Length];
 		

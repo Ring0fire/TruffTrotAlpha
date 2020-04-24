@@ -10,6 +10,7 @@ public class GameOverMenu : MonoBehaviour {
 	{
 		FindObjectOfType<GameManager>().Reset();
 	}
+	
 	public void QuitToMain()
 	{
 		Application.LoadLevel (mainMenuLevel);

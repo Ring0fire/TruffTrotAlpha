@@ -6,6 +6,7 @@ public class ObjectPooler : MonoBehaviour {
 
 	public GameObject pooledObject;
 	
+	// Note: This is a soft limit. Will generate more than poolAmount if needed.
 	public int pooledAmount;
 
 	List <GameObject> pooledObjects;

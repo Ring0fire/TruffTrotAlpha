@@ -50,8 +50,8 @@ public class ScoreManager : MonoBehaviour {
 	public void AddScore(int pointsToAdd){
 		if(doublePoints)
 		{
-			pointsToAdd = pointsToAdd * 2;
+			pointsToAdd *= 2;
 		}
-	scoreCount += pointsToAdd;
+		scoreCount += pointsToAdd;
 	}
 }

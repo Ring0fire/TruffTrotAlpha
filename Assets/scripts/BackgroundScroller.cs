@@ -5,10 +5,11 @@ using UnityEngine;
 public class BackgroundScroller : MonoBehaviour
 {
 	public PlayerController myPlayer;
+	public float scrollSpeed = 1.0f;
 	
 	private Renderer myRenderer;
-	
-    // Start is called before the first frame update
+
+	// Start is called before the first frame update
     void Start()
     {
 		myPlayer = FindObjectOfType<PlayerController>();
@@ -18,8 +19,7 @@ public class BackgroundScroller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		Vector2 offset = new Vector2(Time.time * (myPlayer.moveSpeed / 100), 0);
+		Vector2 offset = new Vector2(Time.time * (myPlayer.moveSpeed / 100) * scrollSpeed, 0);
 		myRenderer.material.mainTextureOffset = offset;
-        
     }
 }

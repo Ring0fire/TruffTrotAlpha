@@ -11,23 +11,18 @@ public class GameManager : MonoBehaviour
 	public PlayerController thePlayer; 
 	private Vector3 playerStartPoint;
 	
-	
 	private ObjectDestroyer[] objectList;
-    
+
 	private ScoreManager theScoreManager;
 	
 	public GameOverMenu theGameOverScreen;
 	public bool powerupReset;
-	
-	public bool mainTrot;
-	//public bool tunnelTrot;
-	public bool cloudTrot;
-	
-    void Start()
+
+	void Start()
     {
         platformStartPoint = objectGenerator.transform.position;
-		playerStartPoint = thePlayer.transform.position;
-		theScoreManager = FindObjectOfType<ScoreManager>();
+        playerStartPoint = thePlayer.transform.position;
+        theScoreManager = FindObjectOfType<ScoreManager>();
 	}
 
     void Update()
@@ -35,19 +30,16 @@ public class GameManager : MonoBehaviour
 	    // if cloud trot...
 		if (thePlayer.myRigidbody.transform.position.y > cloudGenerator.transform.position.y)
 		{
-			GameObject.Find("ObjectGenerator").GetComponent<ObjectGenerator>().enabled = false;
 			cloudGenerator.Generate();
-			objectGenerator.transform.position = new Vector2 (cloudGenerator.transform.position.x, objectGenerator.transform.position.y);
 		} 
 		// else if normal trot...
 		else if (thePlayer.myRigidbody.transform.position.y < cloudGenerator.transform.position.y)
 		{
 			objectGenerator.Generate();
 		}
-		
-//		if (thePlayer.myRigidbody.transform.position.y < cloudGenerator.transform.position.y)
+//		else if (thePlayer.myRigidbody.transform.position.y < cloudGenerator.transform.position.y)
 //		{
-//			mainTrot = true;
+//			tunnelGenerator.Generate();
 //		}
     }
 	public void RestartGame()
