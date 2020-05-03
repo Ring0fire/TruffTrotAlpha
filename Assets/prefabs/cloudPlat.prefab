@@ -93,6 +93,7 @@ GameObject:
   - component: {fileID: 4886039878834486854}
   - component: {fileID: 2605313994134641256}
   - component: {fileID: 8079317401944835815}
+  - component: {fileID: -5686101776884462727}
   m_Layer: 8
   m_Name: cloudPlat
   m_TagString: Untagged
@@ -126,9 +127,9 @@ BoxCollider2D:
   m_GameObject: {fileID: 3165426830298684671}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 143b5c5808c464347b31733d3273927d, type: 2}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0.5}
   m_SpriteTilingProperty:
@@ -156,6 +157,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DestructionPoint: {fileID: 3165426830298684671}
+--- !u!251 &-5686101776884462727
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3165426830298684671}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 1
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 120
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &3369335381935237554
 GameObject:
   m_ObjectHideFlags: 0

@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MainMenu : MonoBehaviour {
-
+	
+	public PlayerController thePlayer;
 	public string playGameLevel;
 
 	public void PlayGame()
@@ -15,4 +16,5 @@ public class MainMenu : MonoBehaviour {
 	{
 		Application.Quit();
 	}
+
 }

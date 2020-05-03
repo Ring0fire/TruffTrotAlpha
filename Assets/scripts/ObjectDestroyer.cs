@@ -16,7 +16,7 @@ public GameObject DestructionPoint;
 	void Update () {
 		
 		if(transform.position.x < DestructionPoint.transform.position.x)
-		{
+		{ 
 			gameObject.SetActive(false);
 		}
 	}

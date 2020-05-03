@@ -1,25 +1,33 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+ 
 public class PlayerController : MonoBehaviour
 {
 	//allows me to adjust speed and jump height in inspector
 	public float moveSpeed;
-	public float jumpPwr;
+	private float normalSpeed;
 	
+	public float speedMod;
+	//public float speedModTime;
+	//private float speedModCounter;
+
+	public float jumpPwr;
 	public float jumpTime;
 	private float jumpTimeCounter;
 	
-
-	
-	//this lets me make sure we can't jump unless we're touching the platform
-	private bool jumpDismount;
 	
 	public Rigidbody2D myRigidbody;	
-	//ground check, compares a collision box with a "ground" box
+	//this lets me make sure we can't jump unless we're touching the platform
+	private bool jumpDismount;
+	//ground check, compares a collision box with a "ground" box	
+	public bool boost;
+	public bool drag;
+	
 	public bool grounded;
 	public LayerMask whatIsGround;
+
+	
 	public Transform groundCheck;
 	public float groundCheckRadius;
 	
@@ -38,9 +46,12 @@ public class PlayerController : MonoBehaviour
 	//when we set up the jumpTimeCounter, it will act like a time limit that will decide how high 
 	//and long we can jump, and we want to start with a full time limit, so we set it to our jumpTime
 		jumpTimeCounter = jumpTime;
-	//when we start we want to be on the ground
 		jumpDismount = true;
-    }
+		//normalSpeed = moveSpeed;
+		//speedModCounter = speedModTime;
+		boost = false;
+		drag = false;
+   }
 
     // Update is called once per frame
     void Update(){
@@ -102,7 +113,32 @@ Vector2 needs to know (movement on X axis see 1, movement on the Y axis see 2)
 			myRigidbody.velocity = new Vector2 (myRigidbody.velocity.x, jumpPwr);
 			jumpDismount = false;	
 		}	
-	}
+	
+
+		//if our Player's collider is touching something on the 'ground' layer	
+		/* Jump execution notes
+		  like how we move our Player forward, this will move our Player upward. instead of being automatic, we check
+		  for specific input that Unity understands by default. so when it detects that input, it executes the following.
+		  we want to move our Player before we check for input, because if we check for input first, then the conditions
+		  that apply to jumping will also apply to running. this depends on whether or not we are 'grounded'
+		  
+		  Call on myRigidbody to get velocity. Then we set that velocity to a new velocity named Vector2, but this time we
+		  want to change on the y axis instead of the x, so we focus on the second argument
+		  Vector2 needs to know (movement on X axis see 1, movement on the Y axis see 2)
+		  1) we check out myRigidbody for the Rigidbody2D we have connected to our Player. we want to set this to itself
+			 because we handled our x movement already so we don't want to get in the way of that
+		  2) our jumpPwr is public so whatever number we put in the inspector will be read here. a positive value will
+			 move us up, negative moves down. 
+		 
+		 if we are grounded, then we will adjust our position by our 'jumpPwr' along the y axis, and set our jumpDismount to false. 
+		 */		
+			if(grounded)
+			{
+				myRigidbody.velocity = new Vector2 (myRigidbody.velocity.x, jumpPwr);
+				jumpDismount = false;	
+			}	
+		}
+
 
 	/* using GetKey notes
 	we'll use GetKey here because it will continually update as long as the key or button is pressed.
@@ -118,46 +154,68 @@ Vector2 needs to know (movement on X axis see 1, movement on the Y axis see 2)
 		 //as long as we have jumpTime, subtract some every frame. this will stop running once we have no more jumpTime	
 			jumpTimeCounter -= Time.deltaTime;
 		}
+
 	}
-	if(Input.GetKeyUp (KeyCode.Space) || Input.GetMouseButtonUp(0))
-	{
-/*  using GetKeyUp notes
-	we'll use GetKeyUp for this statement, which will read when a button is released, so when we release the 
-	jump button, we set our counter to 0. once the jump is released, the Player won't be able to control their
-	jump until they touch the ground again.
-	
-	we'll set our jumpDismount to true so we can no longer move upward when the jump button is pressed. 
-	*/
-		jumpTimeCounter = 0;
-		jumpDismount = true;
-	}
-//this is to reset our
-	if(grounded)
-	{
-		jumpTimeCounter = jumpTime;
-	}
+		if(Input.GetKeyUp (KeyCode.Space) || Input.GetMouseButtonUp(0))
+		{
+	/*  using GetKeyUp notes
+		we'll use GetKeyUp for this statement, which will read when a button is released, so when we release the 
+		jump button, we set our counter to 0. once the jump is released, the Player won't be able to control their
+		jump until they touch the ground again.
+		
+		we'll set our jumpDismount to true so we can no longer move upward when the jump button is pressed. 
+		*/
+			jumpTimeCounter = 0;
+			jumpDismount = true;
+		}
+	//this is to reset our
+		if(grounded)
+		{
+			jumpTimeCounter = jumpTime;
+		}
+		if(boost)
+		{
+			myRigidbody.velocity = new Vector2 (moveSpeed * speedMod, myRigidbody.velocity.y);
+		}	
+		if(drag)
+		{
+			myRigidbody.velocity = new Vector2 (moveSpeed / speedMod, myRigidbody.velocity.y);
+		}
+		
+		
 	myAnimator.SetFloat ("Speed", myRigidbody.velocity.x);
 	myAnimator.SetBool("Grounded", grounded);
 	}
-	 void OnCollisionEnter2D (Collision2D other)
- {
-  if (other.gameObject.tag == "killbox") 
-  {
-	
-	theGameManager.RestartGame(); 
-	//movespeed = movespeedStore;
-	//speedMilestoneCount = speedMilestoneCountStore;
-	//speedIncreaseMilestone = speedIncreaseMilestoneStore;
-	//deathSound.Play();
- 
+void OnCollisionEnter2D (Collision2D other)
+	{
+		if (other.gameObject.tag == "killbox")
+		{
+			theGameManager.RestartGame(); 
+		}	/*
+		if (other.gameObject.tag == "springbox")
+		{
+			myRigidbody.velocity = new Vector2 ()
+		}*/
+		else if(other.gameObject.tag == "booster")
+		{
+			boost = true;	
+		}
+		else if(other.gameObject.tag == "roughTerrain")
+		{
+			drag = true;
 		} 
 	}
-	/*if(other.gameObject.tag == "spring")
+	void OnCollisionExit2D (Collision2D other)
 	{
-		
+		if (other.gameObject.tag == "booster")
+		{
+			boost = false;
+		}
+		else if (other.gameObject.tag == "roughTerrain")
+		{
+			drag = false;
+		}
 	}
-	if (other.gameObject.tag == "mineshaft")
-	{
-		
-	}*/	
 }
+
+	

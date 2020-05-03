@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class TruffleGenerator : MonoBehaviour
 {
-	public ObjectPooler trufflePool;
+	public ObjectPooler  trufflePool;
 	
 	private float truffPlacement;
 

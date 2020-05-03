@@ -8,7 +8,7 @@ public class ObjectPooler : MonoBehaviour {
 	
 	public int pooledAmount;
 
-	List <GameObject> pooledObjects;
+	List <GameObject> pooledObjects; 
 
 	// Use this for initialization
 	void Start () {

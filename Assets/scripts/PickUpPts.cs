@@ -40,5 +40,5 @@ public class PickUpPts : MonoBehaviour{
 			}*/
 		}
 	
-	}
+	} 
 }

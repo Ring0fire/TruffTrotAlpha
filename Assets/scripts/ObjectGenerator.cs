@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-//to be fixed
+
 public class ObjectGenerator : MonoBehaviour
 {
 	//create a space in the editor to place a platform that can be generated
 	//create a public transform, this will act as a coordinate where our objects will spawn
 	public GameObject thePlatform;
 	public Transform generationPoint;
-	public float distanceBetween;
+	 
+	private float distanceBetween;
 	
 	public float distanceBetweenMin;
 	public float distanceBetweenMax;
@@ -22,9 +23,10 @@ public class ObjectGenerator : MonoBehaviour
 
 	public GameManager theGameManager;
 
-	private float minHeight;
-	public Transform maxHeightPoint;
-	private float maxHeight;
+	//private float minHeight;
+	//public Transform maxHeightPoint;
+	//private float maxHeight;
+	public float minHeightChange;
 	public float maxHeightChange;
 	private float heightChange;
 
@@ -33,8 +35,13 @@ public class ObjectGenerator : MonoBehaviour
 	public float randomTruffleThreshold;
 	
 	//this will spawn pitfall traps in the same way we spawn our collectable truffles
-	public float rndPitHzdThreshold;
-	public ObjectPooler pitHzrdPool;
+	public float rndSpeedModThreshold;
+	private int modSelector;
+	public ObjectPooler[] speedModPools;
+	
+	public ObjectPooler baloonBouncePool;
+	public float rndBalloonThreshold;
+	
 	
 	public float powerupHeight;
 	public ObjectPooler powerupPool;
@@ -42,15 +49,15 @@ public class ObjectGenerator : MonoBehaviour
 	
     void Start()
     {
-/* object generation notes
-	first we set our platformWidths to a number that we get by finding the length of an object within our object pools (in the editor). 
-	so our platformWidths will be set to the 'Length' (size on the x axis). in my project all the platforms are built to be the same size
-	so this doesn't do much, but still gives me room to make changes later.
-	
-	we have 'for loop', which will initialize at 0, then check to see if the object in our ObjectPools has a size. it should, so then
-	we set our platformWidths
-	
-	*/
+		/*
+		 object generation notes	  
+		first we set our platformWidths to a number that we get by finding the length of an object within our object pools (in the editor). 
+		so our platformWidths will be set to the 'Length' (size on the x axis). in my project all the platforms are built to be the same size
+		so this doesn't do much, but still gives me room to make changes later.
+		
+		we have 'for loop', which will initialize at 0, then check to see if the object in our ObjectPools has a size. it should, so then
+		we set our platformWidths
+		*/
 
         platformWidths = new float [theObjectPools.Length];
 		
@@ -61,76 +68,63 @@ public class ObjectGenerator : MonoBehaviour
 		theTruffleGenerator = FindObjectOfType<TruffleGenerator>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Generate()
     {
         if(transform.position.x < generationPoint.position.x)
 		{
 			platformSelector = Random.Range(0, theObjectPools.Length);
 		 	
-		if(Random.Range(0f, 100f) < powerupThreshold)
-		{
-			GameObject newPowerup = powerupPool.GetPooledObject();
-			newPowerup.transform.position = transform.position + new Vector3(Random.Range(-platformWidths[platformSelector], platformWidths[platformSelector]), Random.Range(3f,powerupHeight), 0f);
-	
-			newPowerup.SetActive(true);
-		}			
-			if(theGameManager.mainTrot)
-			{
-			transform.position = new Vector3(transform.position.x + (platformWidths[platformSelector])*2, transform.position.y, transform.position.z);
-			/*GameObject newPlatform = theObjectPools[platformSelector].GetPooledObject();
 			
+
+			distanceBetween = Random.Range(distanceBetweenMin, distanceBetweenMax);
+			heightChange = Random.Range(maxHeightChange, minHeightChange);
+			transform.position = new Vector3(transform.position.x + (platformWidths[platformSelector] * 2) + distanceBetween, heightChange , 0f);			
+
+			GameObject newPlatform = theObjectPools[platformSelector].GetPooledObject();
+
 			newPlatform.transform.position = transform.position;
 			newPlatform.transform.rotation = transform.rotation;
-			newPlatform.SetActive (true);*/
+			newPlatform.SetActive (true);
 			
-
-			}
-			if(theGameManager.cloudTrot)
-			{
-				distanceBetween = Random.Range (distanceBetweenMin, distanceBetweenMax);
-				platformSelector = Random.Range (0,theObjectPools.Length);
-				heightChange = transform.position.y + Random.Range(maxHeightChange, -maxHeightChange);
-				if(heightChange > maxHeight)
+			if(Random.Range(0f, 100f) < powerupThreshold)
 				{
-					heightChange = maxHeight;
-				}   else if (heightChange < minHeight)
-				{
-					heightChange = minHeight;
+					GameObject newPowerup = powerupPool.GetPooledObject();
+					newPowerup.transform.position = transform.position + new Vector3(Random.Range(-platformWidths[platformSelector], platformWidths[platformSelector]), Random.Range(3f,powerupHeight), 0f);
+			
+					newPowerup.SetActive(true);
 				}
-		transform.position = new Vector3(transform.position.x + (platformWidths[platformSelector] / 2) + distanceBetween, heightChange , transform.position.z);			
-		/*GameObject newPlatform = theObjectPools[platformSelector].GetPooledObject();
-
-		newPlatform.transform.position = transform.position;
-		newPlatform.transform.rotation = transform.rotation;
-		newPlatform.SetActive (true);	*/
-		}
-		GameObject newPlatform = theObjectPools[platformSelector].GetPooledObject();
-
-		newPlatform.transform.position = transform.position;
-		newPlatform.transform.rotation = transform.rotation;
-		newPlatform.SetActive (true);	
-		
-		
-		
-		if(Random.Range(0f, 100f) < randomTruffleThreshold)
-		{	
-			theTruffleGenerator.SpawnTruffles(new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z));
-		}
-
-		if(Random.Range(0f, 100f) < rndPitHzdThreshold)
-		{
-			GameObject newPitHazard = pitHzrdPool.GetPooledObject();
+				if(Random.Range(0f, 100f) < randomTruffleThreshold)
+				{	
+					theTruffleGenerator.SpawnTruffles(new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z));
+				}
+	
+			modSelector = Random.Range(0,speedModPools.Length);
 			
-			float pitXPos = Random.Range(-platformWidths[platformSelector], platformWidths[platformSelector]);
-			Vector3 pitHzdPos = new Vector3(pitXPos, 0.1f, -1f);
-			
-			newPitHazard.transform.position = transform.position + pitHzdPos;
-			newPitHazard.transform.rotation = transform.rotation;
-			newPitHazard.SetActive(true);
-			
-		}	
-		//transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z);
+				if((Random.Range(0f, 100f) < rndSpeedModThreshold) && platformSelector == 0)
+				{				
+					//float modXPos = platformWidths[platformSelector];
+					Vector3 modPosition = new Vector3(0, 1.01f, -1f);
+					
+					GameObject newSpeedMod = speedModPools[modSelector].GetPooledObject();
+					
+					newSpeedMod.transform.position = transform.position + modPosition;
+					newSpeedMod.transform.rotation = transform.rotation;
+					newSpeedMod.SetActive(true);
+					
+				}
+						
+				if(Random.Range(0f, 100f) < rndBalloonThreshold)
+				{				
+					Vector3 baloonFloat = new Vector3(0f, Random.Range(3f, 8.5f), -1f);
+					
+					GameObject newBaloon = baloonBouncePool.GetPooledObject();
+					
+					newBaloon.transform.position = transform.position + baloonFloat;
+					newBaloon.transform.rotation = transform.rotation;
+					newBaloon.SetActive(true);
+					
+				}
+				
 		}
-	}
+    }
 }

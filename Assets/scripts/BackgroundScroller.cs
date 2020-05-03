@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class BackgroundScroller : MonoBehaviour
 {
 	public PlayerController myPlayer;
+	public Transform cloudTrotAltitude;
 	
+	public Material[] backgroundList;
 	private Renderer myRenderer;
 	
 	
@@ -19,8 +21,18 @@ public class BackgroundScroller : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-		Vector2 offset = new Vector2(Time.time * (1/myPlayer.moveSpeed), 0);
+	
+	if(myPlayer.myRigidbody.transform.position.y > cloudTrotAltitude.transform.position.y)
+		{
+			myRenderer.material = backgroundList[1];		
+		}
+		
+	else if(myPlayer.myRigidbody.transform.position.y < cloudTrotAltitude.transform.position.y)
+		{
+			myRenderer.material = backgroundList[0];		
+		}	
+			Vector2 offset = new Vector2(Time.time *(myPlayer.moveSpeed / 100), 0);
 		myRenderer.material.mainTextureOffset = offset;
-        
+		
     }
 }
