@@ -7,25 +7,21 @@ public class PauseMenu : MonoBehaviour {
 	public string mainMenuLevel;
 	
 	public GameObject pauseMenu;
+	public GameObject pauseButton;
 	
-	
-	public void pauseSelect()
-	{
-		GameObject.Find("Player").GetComponent<PlayerController>().enabled = false;
-	}
-	public void pauseDeselect()
-	{
-		GameObject.Find("Player").GetComponent<PlayerController>().enabled = true;
-	}
 	public void PauseGame()
 	{
+		GameObject.Find("Player").GetComponent<PlayerController>().enabled = false;
 		Time.timeScale = 0f;
 		pauseMenu.SetActive(true);
+		pauseButton.SetActive(false);
 	}
 	public void ResumeGame()
 	{
+		GameObject.Find("Player").GetComponent<PlayerController>().enabled = true;
 		Time.timeScale = 1f;
 		pauseMenu.SetActive(false);
+		pauseButton.SetActive(true);
 	}
 	public void RestartGame()
 	{

@@ -17,7 +17,7 @@ public class ScoreManager : MonoBehaviour {
 	
 	public bool distIncreasing;
 	
-	public bool doublePoints;
+	public bool  doublePoints;
 	
     // Start is called before the first frame update
     void Start(){

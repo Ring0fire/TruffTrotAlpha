@@ -5,11 +5,11 @@ using UnityEngine;
 public class PowerUpManager : MonoBehaviour
 {
 	private bool doublePts;
-
-	private bool powerupActive;
 	
+	private bool powerupActive;
 	private float powerupLengthCounter;
 	
+	private PlayerController thePlayer;
 	private ScoreManager theScoreManager;
 	private ObjectGenerator theObjectGenerator;
 	private GameManager theGameManager;
@@ -34,27 +34,27 @@ public class PowerUpManager : MonoBehaviour
 		{
 			powerupLengthCounter -= Time.deltaTime;
 			
-			if(theGameManager.powerupReset)
-			{
-				powerupLengthCounter = 0;
-				theGameManager.powerupReset = false;
-			}
+				if(theGameManager.powerupReset)
+				{
+					powerupLengthCounter = 0;
+					theGameManager.powerupReset = false;
+				}
+				
+				if(doublePts)
+				{
+					theScoreManager.distPerSecond = normalPtsPerSecond * 2f;
+					theScoreManager.doublePoints = true;
+				}
+				
+				if(powerupLengthCounter <= 0)
+				{
+				theScoreManager.distPerSecond = normalPtsPerSecond;
+				theScoreManager.doublePoints = false;
+
+				//theObjectGenerator.rndPitHzdThreshold = pithzdRate;
 			
-			if(doublePts)
-			{
-				theScoreManager.distPerSecond = normalPtsPerSecond * 1f;
-				theScoreManager.doublePoints = true;
-			}
-			
-			if(powerupLengthCounter <= 0)
-			{
-			theScoreManager.distPerSecond = normalPtsPerSecond;
-			theScoreManager.doublePoints = false;
-			
-			theObjectGenerator.rndPitHzdThreshold = pithzdRate;
-		
-			powerupActive = false;
-			}
+				powerupActive = false;
+				}
 		}     
     }
 	public void ActivatePowerup(bool points, float time){
@@ -62,7 +62,7 @@ public class PowerUpManager : MonoBehaviour
 		powerupLengthCounter = time;
 		
 		normalPtsPerSecond = theScoreManager.distPerSecond;
-		pithzdRate = theObjectGenerator.rndPitHzdThreshold;
+		//pithzdRate = theObjectGenerator.rndPitHzdThreshold;
 		
 		powerupActive = true;
 	}	

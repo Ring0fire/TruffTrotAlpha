@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Ground
   - killbox
+  - booster
+  - roughTerrain
   layers:
   - Default
   - TransparentFX
@@ -17,7 +19,7 @@ TagManager:
   - 
   - ground
   - Player
-  - 
+  - villager
   - 
   - 
   - 

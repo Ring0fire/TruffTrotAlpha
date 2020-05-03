@@ -4,13 +4,16 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-	public Transform objectGenerator;
-	public Transform cloudGenerator;
+	public ObjectGenerator objectGenerator;
+	public ObjectGenerator cloudGenerator;
+	public Transform cloudTrotAltitude;
+	
 	private Vector3 platformStartPoint;
 	
 	public PlayerController thePlayer; 
+	public VillagerChase theVillager;
 	private Vector3 playerStartPoint;
-	
+	private Vector3 villagerStartPoint;
 	
 	private ObjectDestroyer[] objectList;
     
@@ -19,41 +22,37 @@ public class GameManager : MonoBehaviour
 	public GameOverMenu theGameOverScreen;
 	public bool powerupReset;
 	
-	public bool mainTrot;
-	//public bool tunnelTrot;
-	public bool cloudTrot;
-	
     void Start()
     {
-        platformStartPoint = objectGenerator.position;
+        platformStartPoint = objectGenerator.transform.position;
 		playerStartPoint = thePlayer.transform.position;
+		villagerStartPoint = theVillager.transform.position;
 		theScoreManager = FindObjectOfType<ScoreManager>();
+		
 	}
 
     void Update()
     {
-		if (thePlayer.myRigidbody.transform.position.y > cloudGenerator.transform.position.y)
+		if (thePlayer.myRigidbody.transform.position.y > cloudTrotAltitude.transform.position.y)
 		{
-		GameObject.Find("ObjectGenerator").GetComponent<ObjectGenerator>().enabled = false;
-		cloudTrot = true;
-		mainTrot = false;
-		objectGenerator.position = new Vector2 (cloudGenerator.position.x, objectGenerator.position.y);
+			cloudGenerator.Generate();
+			objectGenerator.Generate();
+			//objectGenerator.transform.position = new Vector3 (thePlayer.transform.position.x + 20f, objectGenerator.transform.position.y, transform.position.z);
 		} 
-		if (thePlayer.myRigidbody.transform.position.y < cloudGenerator.transform.position.y)		
+		// else if normal trot... 
+		else if (thePlayer.myRigidbody.transform.position.y < cloudTrotAltitude.transform.position.y)
 		{
-		cloudTrot = false;
+			objectGenerator.Generate();
+			cloudGenerator.transform.position = new Vector3 (thePlayer.transform.position.x + 5f, cloudGenerator.transform.position.y, transform.position.z);
 		}
-		
-		if (thePlayer.myRigidbody.transform.position.y < cloudGenerator.transform.position.y)
-		{
-		mainTrot = true;
-		} 
+
 
     }
 	public void RestartGame()
 	{
 		theScoreManager.distIncreasing = false;
 		thePlayer.gameObject.SetActive(false);
+		theVillager.gameObject.SetActive(false);
 		theGameOverScreen.gameObject.SetActive(true);
 	}
 	
@@ -66,8 +65,10 @@ public class GameManager : MonoBehaviour
 			objectList[i].gameObject.SetActive(false);
 		}
 		thePlayer.transform.position = playerStartPoint;
-		objectGenerator.position = platformStartPoint;
+		theVillager.transform.position = villagerStartPoint;
+		objectGenerator.transform.position = platformStartPoint;
 		thePlayer.gameObject.SetActive(true);
+		theVillager.gameObject.SetActive(true);
 		
 		theScoreManager.scoreCount = 0;
 		theScoreManager.distanceCount = 0;
@@ -75,8 +76,4 @@ public class GameManager : MonoBehaviour
 		
 		powerupReset = true;
 	}
-	/*public void CloudTrot()
-	{
-		thePlayer.transform.position = playerStartPoint;
-	}*/
 }
