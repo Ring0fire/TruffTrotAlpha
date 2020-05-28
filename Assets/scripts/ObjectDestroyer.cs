@@ -5,11 +5,12 @@ using UnityEngine;
 public class ObjectDestroyer : MonoBehaviour {
 
 public GameObject DestructionPoint;
+public GameObject LvlDestPnt;
 
 	// Use this for initialization
 	void Start () {
 		DestructionPoint = GameObject.Find ("destructionPoint");
-		
+		LvlDestPnt = GameObject.Find ("lvlDestPnt");
 	}
 	
 	// Update is called once per frame
@@ -19,5 +20,9 @@ public GameObject DestructionPoint;
 		{ 
 			gameObject.SetActive(false);
 		}
+		else if ((transform.position.y > (LvlDestPnt.transform.position.y + 5f)) && gameObject.tag == "cloudLvl")
+		{
+			gameObject.SetActive(false);
+		}	
 	}
 }

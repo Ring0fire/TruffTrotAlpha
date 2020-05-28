@@ -7,7 +7,10 @@ public class CameraController : MonoBehaviour {
 public PlayerController thePlayer;
 public ObjectGenerator cloudGenerator;
 public ObjectGenerator objectGenerator;
+public ObjectGenerator tunlGenerator;
+
 public Transform cloudTrot; 
+public Transform tunlTrot;
 
 private Vector3 cameraCalibration;
 private Vector3 lastPlayerPosition;
@@ -36,6 +39,14 @@ private float distanceToMove;
 		{
 			transform.position = new Vector3 (transform.position.x, cameraCalibration.y, transform.position.z);
 		}
-		
+
+		if (thePlayer.myRigidbody.transform.position.y <= tunlTrot.transform.position.y)
+		{
+			transform.position = new Vector3 (transform.position.x, tunlTrot.transform.position.y - 5, transform.position.z);
+		}
+	/*	else if (thePlayer.myRigidbody.transform.position.y > tunlTrot.transform.position.y)
+		{
+			transform.position = new Vector3 (transform.position.x, cameraCalibration.y, transform.position.z);	
+		}*/
 	}
 }

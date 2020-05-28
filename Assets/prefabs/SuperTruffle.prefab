@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6091836184714589159}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 13.1, y: -2.58, z: -0.03750135}
+  m_LocalPosition: {x: 81.850426, y: 1.7485399, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -72,8 +72,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 2992267146173699412, guid: fd6243728418f894ca396c5752c971d4,
+  m_SortingOrder: 3
+  m_Sprite: {fileID: 5411920179350977520, guid: dd9dcea29b5e9204c83d8c9d28f518c3,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -114,7 +114,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   doublePts: 0
-  oilBoost: 0
   powerupLength: 10
   powerupSprites:
   - {fileID: 8361278878236676324, guid: fd6243728418f894ca396c5752c971d4, type: 3}
@@ -132,3 +131,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DestructionPoint: {fileID: 0}
+  LvlDestPnt: {fileID: 0}

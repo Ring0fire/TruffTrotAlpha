@@ -6,7 +6,10 @@ public class GameManager : MonoBehaviour
 {
 	public ObjectGenerator objectGenerator;
 	public ObjectGenerator cloudGenerator;
+	public ObjectGenerator tunlGenerator;
+	
 	public Transform cloudTrotAltitude;
+	public Transform tunlTrotAltitude;
 	
 	private Vector3 platformStartPoint;
 	
@@ -33,6 +36,28 @@ public class GameManager : MonoBehaviour
 
     void Update()
     {
+		objectGenerator.Generate();
+	//	cloudGenerator.transform.position = new Vector3 (thePlayer.transform.position.x + 5f, cloudGenerator.transform.position.y, transform.position.z);
+	//	tunlGenerator.transform.position = new Vector3 (thePlayer.transform.position.x - 5f, tunlGenerator.transform.position.y, transform.position.z);		
+		
+		if(thePlayer.myRigidbody.transform.position.y > cloudTrotAltitude.transform.position.y)
+		{
+			cloudGenerator.Generate();
+		//	objectGenerator.Generate();
+		//	tunlGenerator.transform.position = new Vector3 (thePlayer.transform.position.x - 5f, tunlGenerator.transform.position.y, transform.position.z);		
+		}
+		else if(thePlayer.myRigidbody.transform.position.y < tunlTrotAltitude.transform.position.y)
+		{
+			tunlGenerator.Generate();
+		//	objectGenerator.Generate();
+		//	cloudGenerator.transform.position = new Vector3 (thePlayer.transform.position.x + 5f, cloudGenerator.transform.position.y, transform.position.z);
+		}
+		else if ((thePlayer.myRigidbody.transform.position.y < cloudTrotAltitude.transform.position.y) && (thePlayer.myRigidbody.transform.position.y > tunlTrotAltitude.transform.position.y))
+		{
+			cloudGenerator.transform.position = new Vector3 (thePlayer.transform.position.x + 4f, cloudGenerator.transform.position.y, transform.position.z);
+			tunlGenerator.transform.position = new Vector3 (thePlayer.transform.position.x - 5f, tunlGenerator.transform.position.y, transform.position.z);	
+		}	
+	/*	
 		if (thePlayer.myRigidbody.transform.position.y > cloudTrotAltitude.transform.position.y)
 		{
 			cloudGenerator.Generate();
@@ -40,12 +65,19 @@ public class GameManager : MonoBehaviour
 			//objectGenerator.transform.position = new Vector3 (thePlayer.transform.position.x + 20f, objectGenerator.transform.position.y, transform.position.z);
 		} 
 		// else if normal trot... 
-		else if (thePlayer.myRigidbody.transform.position.y < cloudTrotAltitude.transform.position.y)
+		else if (thePlayer.myRigidbody.transform.position.y < tunlTrotAltitude.transform.position.y)
+		{
+			objectGenerator.Generate();
+			tunlGenerator.Generate();
+		}	
+		else if ((thePlayer.myRigidbody.transform.position.y < cloudTrotAltitude.transform.position.y) && (thePlayer.myRigidbody.transform.position.y > tunlTrotAltitude.transform.position.y))
 		{
 			objectGenerator.Generate();
 			cloudGenerator.transform.position = new Vector3 (thePlayer.transform.position.x + 5f, cloudGenerator.transform.position.y, transform.position.z);
+			tunlGenerator.transform.position = new Vector3 (thePlayer.transform.position.x - 5f, tunlGenerator.transform.position.y, transform.position.z);
+			
 		}
-
+	*/
 
     }
 	public void RestartGame()

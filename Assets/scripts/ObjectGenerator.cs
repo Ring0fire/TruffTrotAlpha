@@ -6,7 +6,7 @@ public class ObjectGenerator : MonoBehaviour
 {
 	//create a space in the editor to place a platform that can be generated
 	//create a public transform, this will act as a coordinate where our objects will spawn
-	public GameObject thePlatform;
+//	public GameObject thePlatform;
 	public Transform generationPoint;
 	 
 	private float distanceBetween;
@@ -15,6 +15,7 @@ public class ObjectGenerator : MonoBehaviour
 	public float distanceBetweenMax;
 	
 	//create the platformSelector whcih will pull a whole number from our platformWidths array, and use that number to choose a game object
+	private int platChance;
 	private int platformSelector;
 	private float [] platformWidths;
 	
@@ -39,6 +40,10 @@ public class ObjectGenerator : MonoBehaviour
 	private int modSelector;
 	public ObjectPooler[] speedModPools;
 	
+	public float tunleFindChance;
+	private int bonusRunSelector;
+	public ObjectPooler[] bonusRunEnt;
+	
 	public ObjectPooler baloonBouncePool;
 	public float rndBalloonThreshold;
 	
@@ -58,12 +63,22 @@ public class ObjectGenerator : MonoBehaviour
 		we have 'for loop', which will initialize at 0, then check to see if the object in our ObjectPools has a size. it should, so then
 		we set our platformWidths
 		*/
-
+		
+	/*	for (int i = 0; i < theObjectPools.Length; i++ )
+		{
+			platChance += theObjectPools[i].GetComponent<ObjectPooler>().pooledAmount;
+			Debug.Log(theObjectPools[i].pooledObject.name + " " + theObjectPools[i].GetComponent<ObjectPooler>().pooledAmount.ToString() + " " + platChance);
+			
+		//	platChance ++;
+	//		Debug.Log(theObjectPools.ToString());*/
+		
         platformWidths = new float [theObjectPools.Length];
 		
 		for (int i = 0; i < theObjectPools.Length; i ++)
 		{
 			platformWidths[i] = theObjectPools[i].pooledObject.GetComponent<BoxCollider2D>().size.x;	
+			
+		//	Debug.Log(theObjectPools[i].pooledObject.name + " " + theObjectPools[i].GetComponent<ObjectPooler>().pooledAmount.ToString() + " " + platChance);
 		}	
 		theTruffleGenerator = FindObjectOfType<TruffleGenerator>();
     }
@@ -72,20 +87,22 @@ public class ObjectGenerator : MonoBehaviour
     {
         if(transform.position.x < generationPoint.position.x)
 		{
+		
 			platformSelector = Random.Range(0, theObjectPools.Length);
 		 	
-			
-
+		
 			distanceBetween = Random.Range(distanceBetweenMin, distanceBetweenMax);
 			heightChange = Random.Range(maxHeightChange, minHeightChange);
 			transform.position = new Vector3(transform.position.x + (platformWidths[platformSelector] * 2) + distanceBetween, heightChange , 0f);			
-
+			
 			GameObject newPlatform = theObjectPools[platformSelector].GetPooledObject();
-
+			
 			newPlatform.transform.position = transform.position;
 			newPlatform.transform.rotation = transform.rotation;
 			newPlatform.SetActive (true);
-			
+		
+		
+		//	Debug.Log(platformSelector.ToString());
 			if(Random.Range(0f, 100f) < powerupThreshold)
 				{
 					GameObject newPowerup = powerupPool.GetPooledObject();
@@ -93,17 +110,17 @@ public class ObjectGenerator : MonoBehaviour
 			
 					newPowerup.SetActive(true);
 				}
-				if(Random.Range(0f, 100f) < randomTruffleThreshold)
+			if(Random.Range(0f, 100f) < randomTruffleThreshold)
 				{	
 					theTruffleGenerator.SpawnTruffles(new Vector3(transform.position.x, transform.position.y + 3f, transform.position.z));
 				}
 	
 			modSelector = Random.Range(0,speedModPools.Length);
 			
-				if((Random.Range(0f, 100f) < rndSpeedModThreshold) && platformSelector == 0)
+			if((Random.Range(0f, 100f) < rndSpeedModThreshold) && platformSelector == 0)
 				{				
 					//float modXPos = platformWidths[platformSelector];
-					Vector3 modPosition = new Vector3(0, 1.01f, -1f);
+					Vector3 modPosition = new Vector3(-.5f, .9f, -1f);
 					
 					GameObject newSpeedMod = speedModPools[modSelector].GetPooledObject();
 					
@@ -112,8 +129,23 @@ public class ObjectGenerator : MonoBehaviour
 					newSpeedMod.SetActive(true);
 					
 				}
+				
+			bonusRunSelector = Random.Range(0, bonusRunEnt.Length);
+			
+			if((Random.Range(0f, 100f) < tunleFindChance) && platformSelector == 0)
+				{				
+
+					Vector3 tunEntPosition = new Vector3(-.5f, .9f, -1f);
+					
+					GameObject newTunlEnt = bonusRunEnt[bonusRunSelector].GetPooledObject();
+					
+					newTunlEnt.transform.position = transform.position + tunEntPosition;
+					newTunlEnt.transform.rotation = transform.rotation;
+					newTunlEnt.SetActive(true);
+					
+				}	
 						
-				if(Random.Range(0f, 100f) < rndBalloonThreshold)
+			if(Random.Range(0f, 100f) < rndBalloonThreshold)
 				{				
 					Vector3 baloonFloat = new Vector3(0f, Random.Range(3f, 8.5f), -1f);
 					

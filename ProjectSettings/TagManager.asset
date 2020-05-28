@@ -8,6 +8,7 @@ TagManager:
   - killbox
   - booster
   - roughTerrain
+  - cloudLvl
   layers:
   - Default
   - TransparentFX

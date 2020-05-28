@@ -6,6 +6,7 @@ public class BackgroundScroller : MonoBehaviour
 {
 	public PlayerController myPlayer;
 	public Transform cloudTrotAltitude;
+	public Transform tunlTrotAltitude;
 	
 	public Material[] backgroundList;
 	private Renderer myRenderer;
@@ -26,12 +27,16 @@ public class BackgroundScroller : MonoBehaviour
 		{
 			myRenderer.material = backgroundList[1];		
 		}
-		
-	else if(myPlayer.myRigidbody.transform.position.y < cloudTrotAltitude.transform.position.y)
+	else if(myPlayer.myRigidbody.transform.position.y < tunlTrotAltitude.transform.position.y)
+		{
+			myRenderer.material = backgroundList[2];
+		}	
+	else if((myPlayer.myRigidbody.transform.position.y < cloudTrotAltitude.transform.position.y) && (myPlayer.myRigidbody.transform.position.y > tunlTrotAltitude.transform.position.y))
 		{
 			myRenderer.material = backgroundList[0];		
 		}	
-			Vector2 offset = new Vector2(Time.time *(myPlayer.moveSpeed / 100), 0);
+		
+		Vector2 offset = new Vector2(Time.time *(myPlayer.moveSpeed / 100), 0);
 		myRenderer.material.mainTextureOffset = offset;
 		
     }

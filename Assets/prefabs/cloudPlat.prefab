@@ -70,7 +70,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 3855477058443104999, guid: e12c0afe5754a4b45b3e3381d6cec716,
+  m_Sprite: {fileID: -3659493323820276336, guid: dd9dcea29b5e9204c83d8c9d28f518c3,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: -5686101776884462727}
   m_Layer: 8
   m_Name: cloudPlat
-  m_TagString: Untagged
+  m_TagString: cloudLvl
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -142,7 +142,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3, y: 1}
+  m_Size: {x: 2.75, y: 0.5}
   m_EdgeRadius: 0
 --- !u!114 &8079317401944835815
 MonoBehaviour:
@@ -157,6 +157,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DestructionPoint: {fileID: 3165426830298684671}
+  LvlDestPnt: {fileID: 3165426830298684671}
 --- !u!251 &-5686101776884462727
 PlatformEffector2D:
   m_ObjectHideFlags: 0
@@ -246,8 +247,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 3855477058443104999, guid: e12c0afe5754a4b45b3e3381d6cec716,
-    type: 3}
+  m_Sprite: {fileID: 702206443410204585, guid: dd9dcea29b5e9204c83d8c9d28f518c3, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -328,10 +328,10 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 3855477058443104999, guid: e12c0afe5754a4b45b3e3381d6cec716,
+  m_Sprite: {fileID: -3659493323820276336, guid: dd9dcea29b5e9204c83d8c9d28f518c3,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1, y: 1}

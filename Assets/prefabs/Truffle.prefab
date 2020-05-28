@@ -28,8 +28,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 806511621598058475}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.0566, y: -0.5144726, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalPosition: {x: 11.520216, y: 1.2601078, z: 0}
+  m_LocalScale: {x: 0.75, y: 0.75, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -72,8 +72,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_Sprite: {fileID: 7870076524342767769, guid: fd6243728418f894ca396c5752c971d4,
+  m_SortingOrder: 3
+  m_Sprite: {fileID: 9184963723152095937, guid: dd9dcea29b5e9204c83d8c9d28f518c3,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -114,6 +114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DestructionPoint: {fileID: 806511621598058475}
+  LvlDestPnt: {fileID: 0}
 --- !u!114 &7908176810169360492
 MonoBehaviour:
   m_ObjectHideFlags: 0

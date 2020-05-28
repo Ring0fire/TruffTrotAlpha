@@ -19,7 +19,9 @@ public class ObjectPooler : MonoBehaviour {
 			GameObject obj = (GameObject) Instantiate (pooledObject);
 			obj.SetActive (false);
 			pooledObjects.Add (obj);
+		Debug.Log(obj.name + " " + pooledAmount.ToString());
 		}
+		
 	}
 		
 	public GameObject GetPooledObject()
@@ -31,10 +33,13 @@ public class ObjectPooler : MonoBehaviour {
 				return pooledObjects[i];
 			}
 		}	
-			GameObject obj = (GameObject) Instantiate (pooledObject);
+		/*	GameObject obj = (GameObject) Instantiate (pooledObject);
 			obj.SetActive (false);
 			pooledObjects.Add (obj);
-			return obj;
+			Debug.Log(pooledObject.name.ToString() + " " + pooledObject.activeSelf.ToString());
+			return obj;*/
+			return pooledObject;	
+		
 	}
 
 }
